@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4571375c-d4d7-4841-92dd-31865d7020e0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[select
+tbnilai.nim AS tbnilai_nim,
+tbnilai.kodematakuliah AS tbnilai_kodematakuliah,
+tbnilai.uts AS tbnilai_uts,
+tbnilai.uas AS tbnilai_uas,
+tbmahasiswa.nama AS tbmahasiswa_nama,
+tbmahasiswa.semester AS tbmahasiswa_semester,
+tbmahasiswa.kelas AS tbmahasiswa_kelas,
+tbmatakuliah.namamatakuliah AS tbmatakuliah_namamatakuliah,
+tbmatakuliah.jumlahsks AS tbmatakuliah_jumlahsks,
+round
+((tbnilai.tugas+tbnilai.uts+tbnilai.uas)/3, 2)
+ AS tbnilai_nilaiakhir,
+(if((tbnilai.tugas+tbnilai.uts+tbnilai.uas)/3>=85,'A', 
+if((tbnilai.tugas+tbnilai.uts+tbnilai.uas)/3>=70,'B', 
+if((tbnilai.tugas+tbnilai.uts+tbnilai.uas)/3>=55,'C', 
+if((tbnilai.tugas+tbnilai.uts+tbnilai.uas)/3>=40,'D','E'))))) AS tbnilai_nilaihuruf, 
+(if((tbnilai.tugas+tbnilai.uts+tbnilai.uas)/3>=55,'Lulus','Tidak Lulus')) AS tbnilai_status
+
+
+from
+tbmahasiswa tbmahasiswa inner join tbnilai tbnilai on tbmahasiswa.nim=tbnilai.nim inner join tbmatakuliah tbmatakuliah on tbnilai.kodematakuliah=tbmatakuliah.kodematakuliah
+ORDER BY 
+tbmahasiswa.semester ASC, 
+tbmahasiswa.kelas ASC, 
+tbmahasiswa.nama ASC, 
+tbmahasiswa.nim ASC]]>
+	</queryString>
+	<field name="tbnilai_nim" class="java.lang.String"/>
+	<field name="tbnilai_kodematakuliah" class="java.lang.String"/>
+	<field name="tbnilai_uts" class="java.lang.Double"/>
+	<field name="tbnilai_uas" class="java.lang.Double"/>
+	<field name="tbmahasiswa_nama" class="java.lang.String"/>
+	<field name="tbmahasiswa_semester" class="java.lang.Integer"/>
+	<field name="tbmahasiswa_kelas" class="java.lang.String"/>
+	<field name="tbmatakuliah_namamatakuliah" class="java.lang.String"/>
+	<field name="tbmatakuliah_jumlahsks" class="java.lang.Integer"/>
+	<field name="tbnilai_nilaiakhir" class="java.lang.Double"/>
+	<field name="tbnilai_nilaihuruf" class="java.lang.String"/>
+	<field name="tbnilai_status" class="java.lang.String"/>
+	<group name="tbmahasiswa_semester">
+		<groupExpression><![CDATA[$F{tbmahasiswa_semester}]]></groupExpression>
+	</group>
+	<group name="tbmahasiswa_kelas">
+		<groupExpression><![CDATA[$F{tbmahasiswa_kelas}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="287" splitType="Stretch">
+			<elementGroup>
+				<staticText>
+					<reportElement uuid="46ed045d-4135-4293-b9a8-0da04306a3f6" x="326" y="128" width="100" height="20"/>
+					<textElement markup="none"/>
+					<text><![CDATA[Static text]]></text>
+				</staticText>
+			</elementGroup>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
